@@ -12,6 +12,18 @@ export default function GoalCounter() {
   const [blueScore, setBlueScore] = useState(0);
   const [orangeScore, setOrangeScore] = useState(0);
 
+  // --- SOUND EFFECTS ---
+  const playGoalSound = () => {
+    // We create a temporary Audio object to play the sound.
+    // NOTE: To use your own file, put 'goal.mp3' in your 'public' folder 
+    // and change the URL below to just '/goal.mp3'.
+    const audio = new Audio('/Carrying Sound Effect.mp3'); 
+    audio.volume = 0.05; // Set volume to 50% so it's not too loud
+    
+    // We catch errors because sometimes browsers block auto-playing sounds
+    audio.play().catch((err) => console.log("Audio playback failed:", err));
+  };
+
   // --- LOGIC (The Brains) ---
 
   // A simple function to add 1 to the Blue score
@@ -19,10 +31,12 @@ export default function GoalCounter() {
     // We NEVER say "blueScore = blueScore + 1" in React.
     // We MUST use the setting function we created above.
     setBlueScore(blueScore + 1);
+    playGoalSound();
   };
 
   const handleOrangeGoal = () => {
     setOrangeScore(orangeScore + 1);
+    playGoalSound();
   };
 
   const resetGame = () => {
