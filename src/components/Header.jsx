@@ -29,7 +29,7 @@ export default function renderHeader() {
             <ul className='bg-slate-800 flex justify-center gap-8 text-sm font-medium text-slate-100'>
               {NAV_LINKS.map((link) => {
                 return (
-                  <li key={link.id}>{link.label}</li>
+                  <li className='header-nav-link' key={link.id}>{link.label}</li>
                 );
               })}
             </ul>
