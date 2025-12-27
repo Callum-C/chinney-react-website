@@ -1,6 +1,5 @@
-import React from 'react';
 import { MOCK_PLAYERS, MOCK_STATS, MOCK_MATCHES } from '../data/mockData';
-import { getPlayerName } from '../helpers/utilityFunctions';
+import LeaderboardRow from './LeaderboardRow';
 
 const TABLE_HEADERS = [
   {label: "Rank", id: "rank"},
@@ -37,16 +36,7 @@ export default function renderLeaderboard() {
           <tbody className='divide-y divide-slate-800'>
               {MOCK_STATS.map((player, index) => {
                 return (
-                  <tr key={player.playerID} className='hover:bg-slate-800/50 transition-colors group'>
-                    <td>{index + 1}</td>
-                    <td>{player.playerID}</td>
-                    <td>{player.mmr}</td>
-                    <td><span className='text-green-400 font-bold'>{player.matchesWon}</span> - <span className='text-red-400 font-bold'>{player.matchesLost}</span></td>
-                    <td>{(player.matchesWon / (player.matchesWon + player.matchesLost)) * 100 + "%"}</td>
-                    <td>{player.winStreak > 0 ? player.winStreak : player.losingStreak}</td>
-                    <td><span className='text-green-400'>{player.gamesWon}</span> - <span className='text-red-400'>{player.gamesLost}</span></td>
-
-                  </tr>
+                  <LeaderboardRow player={player} index={index}/>
                 );
               })}
           </tbody>
