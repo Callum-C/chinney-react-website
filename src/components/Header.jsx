@@ -1,5 +1,12 @@
 import React from 'react';
-import { Trophy } from 'lucide-react'
+import { Trophy } from 'lucide-react';
+
+const NAV_LINKS = [
+  {label: 'Player Lookup', id: 'player_lookup'},
+  {label: 'Leaderboard', id: 'leaderboard'},
+  {label: 'Matches', id: 'matches'},
+  {label: 'Rules and Info', id: 'rules'}
+];
 
 export default function renderHeader() {
 
@@ -20,18 +27,11 @@ export default function renderHeader() {
         <div className='max-w-7xl mx-auto px-4 py-3'>
           <nav>
             <ul className='bg-slate-800 flex justify-center gap-8 text-sm font-medium text-slate-100'>
-              <li>
-                <a className='header-nav-link' href =''>Player Lookup</a>
-              </li>
-              <li>
-                <a className='header-nav-link' href =''>Leaderboard</a>
-              </li>
-              <li>
-                <a className='header-nav-link' href =''>Matches</a>
-              </li>
-              <li>
-                <a className='header-nav-link' href =''>Rules and Info</a>
-              </li>
+              {NAV_LINKS.map((link) => {
+                return (
+                  <li key={link.id}>{link.label}</li>
+                );
+              })}
             </ul>
           </nav>
         </div>
