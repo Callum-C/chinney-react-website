@@ -11,7 +11,7 @@ const NAV_LINKS = [
 export default function renderHeader() {
 
   return (
-    <header className='w-full shadow-lg mb-8'>
+    <header className='w-full shadow-lg mb-4 border-b border-slate-700'>
 
       <div className='w-full bg-chinney-purple border-b-2 border-chinney-gold'>
         <div className='max-w-7xl mx-auto p-4 flex items-center justify-center gap-3'>
