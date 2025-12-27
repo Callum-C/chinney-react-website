@@ -11,7 +11,7 @@ const TABLE_HEADERS = [
   {label: "Games (W-L)", id: "games"}
 ];
 
-export default function renderLeaderboard() {
+export default function renderLeaderboard(stats) {
 
   return (
     <div className='bg-slate-900 rounded-xl border border-slate-800 overflow-hidden shadow-xl'>
@@ -34,9 +34,9 @@ export default function renderLeaderboard() {
           </thead>
 
           <tbody className='divide-y divide-slate-800'>
-              {MOCK_STATS.map((player, index) => {
+              {stats.stats[4].map((player, index) => {
                 return (
-                  <LeaderboardRow player={player} index={index}/>
+                  <LeaderboardRow key={player.username} player={player} index={index}/>
                 );
               })}
           </tbody>
