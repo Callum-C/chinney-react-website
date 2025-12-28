@@ -9,6 +9,8 @@ export default function leaderboardContainer({guildID}) {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const season = 4;
+
   useEffect(() => {
     const loadData = async () => {
       setIsLoading(true);
@@ -46,7 +48,7 @@ export default function leaderboardContainer({guildID}) {
       )}
 
       {!isLoading && !error && (
-        <Leaderboard stats={stats}/>
+        <Leaderboard stats={stats} season={season}/>
       )}
     </>
   );
