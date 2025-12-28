@@ -1,4 +1,4 @@
-const AWS = `https://r5dvsot262.execute-api.eu-west-1.amazonaws.com`
+const AWS = `https://r5dvsot262.execute-api.eu-west-1.amazonaws.com`;
 const BASE_URL = `${AWS}/default/SixMansLeaderboardAPI`;
 
 export const fetchGuildData = async (guildID) => {

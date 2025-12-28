@@ -1,4 +1,3 @@
-import { MOCK_PLAYERS, MOCK_STATS, MOCK_MATCHES } from '../data/mockData';
 import LeaderboardRow from './LeaderboardRow';
 
 const TABLE_HEADERS = [
@@ -11,7 +10,7 @@ const TABLE_HEADERS = [
   {label: "Games (W-L)", id: "games"}
 ];
 
-export default function renderLeaderboard(stats) {
+export default function renderLeaderboard({stats}) {
 
   return (
     <div className='bg-slate-900 rounded-xl border border-slate-800 overflow-hidden shadow-xl'>
@@ -34,7 +33,7 @@ export default function renderLeaderboard(stats) {
           </thead>
 
           <tbody className='divide-y divide-slate-800'>
-              {stats.stats[4].map((player, index) => {
+              {stats[4].map((player, index) => {
                 return (
                   <LeaderboardRow key={player.username} player={player} index={index}/>
                 );
