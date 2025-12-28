@@ -3,9 +3,7 @@ import Leaderboard from './Leaderboard';
 import { Loader2 } from 'lucide-react';
 import { fetchGuildData } from '../services/api';
 
-const guildID = '349293115225407488';
-
-export default function leaderboardContainer() {
+export default function leaderboardContainer({guildID}) {
 
   const [stats, setStats] = useState({});
   const [error, setError] = useState(null);
