@@ -17,14 +17,14 @@ export default function renderLeaderboard({stats, isPlaced}) {
 
   return (
     <div className=''>
-      <h2 className='text-xl font-bold text-white mb-4 pl-1'>{title}</h2>
+      <h2 className='text-xl font-bold text-white my-4 pl-1'>{title}</h2>
       <div className='bg-slate-900 rounded-xl border border-slate-800 overflow-hidden shadow-xl mb-8'>
         { /* Leaderboard Background  */ }
         <div className='overflow-x-auto'>
           { /* Leaderboard Container */ }
-          <table className='min-w-full divide-y divide-slate-800'>
+          <table className='min-w-full table-auto'>
 
-            <thead className='bg-slate-950/50 text-white'>
+            <thead className='bg-slate-950/50 text-white border-b border-slate-800'>
               <tr>
                 {TABLE_HEADERS.map((heading) => {
                   return (
@@ -37,7 +37,7 @@ export default function renderLeaderboard({stats, isPlaced}) {
               </tr>
             </thead>
 
-            <tbody className='divide-y divide-slate-800'>
+            <tbody>
                 {stats.map((player, index) => {
                   index = (isPlaced === false) ? '-' : index + 1;
                   return (

@@ -3,7 +3,7 @@ import { Flame, Snowflake } from 'lucide-react';
 export default function renderLeaderboardRow({ player, index }) {
 
   return (
-    <tr className='hover:bg-slate-800/50 transition-colors group'>
+    <tr className='hover:bg-slate-800/50 transition-colors group border-b border-slate-800'>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 font-mono">
         {index}
       </td>
@@ -59,7 +59,7 @@ export default function renderLeaderboardRow({ player, index }) {
       </td>
       
       <td>
-        <span className='text-green-400'>{player.gamesWon}</span> - <span className='text-red-400'>{player.gamesLost}</span>
+        <span className='text-green-400/50'>{player.gamesWon}</span> - <span className='text-red-400/50'>{player.gamesLost}</span>
       </td>
     </tr>
   );

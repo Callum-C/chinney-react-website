@@ -1,13 +1,15 @@
-import {useState, useEffect} from 'react';
-import Leaderboard from './Leaderboard';
+import {useState, useEffect, useMemo} from 'react';
 import { Loader2 } from 'lucide-react';
 import { fetchGuildData } from '../services/api';
+import Leaderboard from './Leaderboard';
+import SearchBar from './SearchBar';
 
 export default function leaderboardContainer({guildID}) {
 
   const [stats, setStats] = useState({});
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const season = 4;
   var placedStats, unplacedStats;
@@ -31,9 +33,26 @@ export default function leaderboardContainer({guildID}) {
     loadData();
   }, []);
 
+  const processedData = useMemo(() => {
+    if (!isLoading){
+      let data = [...stats[season]];
+
+      if (searchQuery) {
+        data = data.filter(
+          p => p.username.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      }
+
+      return data;
+    } else {
+      return [];
+    }
+    
+  }, [stats, searchQuery]);
+
   if (!isLoading && !error) {
-    placedStats = stats[season].filter(player => player.placed === true);
-    unplacedStats = stats[season].filter(player => player.placed === false);
+    placedStats = processedData.filter(player => player.placed);
+    unplacedStats = processedData.filter(player => !player.placed);
   }
 
   return (
@@ -53,10 +72,17 @@ export default function leaderboardContainer({guildID}) {
       )}
 
       {!isLoading && !error && (
-        <div className='flex flex-col justify-center'>
-          <Leaderboard stats={placedStats} isPlaced={true}/>
-          <Leaderboard stats={unplacedStats} isPlaced={false}/>
+        <div className=''>
+          <div className=''>
+            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+          </div>
+
+          <div className='flex flex-col justify-center'>
+            <Leaderboard stats={placedStats} isPlaced={true}/>
+            <Leaderboard stats={unplacedStats} isPlaced={false}/>
+          </div>
         </div>
+        
       )}
     </>
   );
