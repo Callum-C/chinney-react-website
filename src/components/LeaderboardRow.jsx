@@ -52,6 +52,9 @@ export default function renderLeaderboardRow({ player, index }) {
               <Snowflake size={14} className='mr-1' /> {player.losingStreak}
             </span>
           )}
+          {player.winStreak <= 0 && player.losingStreak <= 0 && (
+            <span className=''> - </span>
+          )}
         </div>
       </td>
       
