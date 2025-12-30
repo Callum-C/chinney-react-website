@@ -10,6 +10,7 @@ export default function leaderboardContainer({guildID}) {
   const [isLoading, setIsLoading] = useState(true);
 
   const season = 4;
+  var placedStats, unplacedStats;
 
   useEffect(() => {
     const loadData = async () => {
@@ -28,8 +29,12 @@ export default function leaderboardContainer({guildID}) {
     };
 
     loadData();
-
   }, []);
+
+  if (!isLoading && !error) {
+    placedStats = stats[season].filter(player => player.placed === true);
+    unplacedStats = stats[season].filter(player => player.placed === false);
+  }
 
   return (
     <>
@@ -48,7 +53,10 @@ export default function leaderboardContainer({guildID}) {
       )}
 
       {!isLoading && !error && (
-        <Leaderboard stats={stats} season={season}/>
+        <div className='flex flex-col justify-center'>
+          <Leaderboard stats={placedStats} isPlaced={true}/>
+          <Leaderboard stats={unplacedStats} isPlaced={false}/>
+        </div>
       )}
     </>
   );
