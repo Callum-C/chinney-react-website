@@ -1,14 +1,63 @@
+import { Flame, Snowflake } from 'lucide-react';
+
 export default function renderLeaderboardRow({ player, index }) {
 
   return (
     <tr className='hover:bg-slate-800/50 transition-colors group'>
-      <td>{index + 1}</td>
-      <td>{player.username}</td>
-      <td>{player.mmr}</td>
-      <td><span className='text-green-400 font-bold'>{player.matchesWon}</span> - <span className='text-red-400 font-bold'>{player.matchesLost}</span></td>
-      <td>{`${player.winPercentage}%`}</td>
-      <td>{player.winStreak > 0 ? player.winStreak : player.losingStreak}</td>
-      <td><span className='text-green-400'>{player.gamesWon}</span> - <span className='text-red-400'>{player.gamesLost}</span></td>
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 font-mono">
+        {index}
+      </td>
+
+      <td className="px-6 py-4 whitespace-nowrap">
+        <div className="flex items-center">
+          <div className="h-8 w-8 rounded-full bg-slate-800 flex items-center justify-center text-xs font-bold text-slate-300 border border-slate-600 mr-3">
+            {player.username.substring(0, 2).toUpperCase()}
+          </div>
+          <span className="text-sm font-medium text-white group-hover:text-chinney-gold transition-colors">
+            {player.username}
+          </span>
+        </div>
+      </td>
+
+      <td className="px-6 py-4 whitespace-nowrap">
+        <div className="flex flex-col">
+          {player.mmr}
+          {/*TODO Add Rank Tier (Bronze - Siler - Gold etc*/}
+        </div>
+      </td>
+
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
+        <span className='text-green-400 font-bold'>{player.matchesWon}</span> - <span className='text-red-400 font-bold'>{player.matchesLost}</span>
+      </td>
+
+      <td className="px-6 py-4 whitespace-nowrap">
+        <div className="flex items-center">
+          <div className="w-16 bg-slate-800 rounded-full h-1.5 mr-2 overflow-hidden">
+            <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${player.winPercentage}%` }}></div>
+          </div>
+          <span className="text-sm text-slate-300">{`${player.winPercentage}%`}</span>
+        </div>
+      </td>
+      
+      {/*The following <td> is causing the diagonal hyphens. */}
+      <td className='px-6 py-4 whitespace-nowrap text-sm'>
+        <div className='flex items-center'>
+          {player.winStreak > 0 && (
+            <span className='flex items-center text-orange-400 font-bold bg-orange-400/10 px-2 py-1 rounded w-fit'>
+              <Flame size={14} className='mr-1'/> {player.winStreak}
+            </span>
+          )}
+          {player.losingStreak > 0 && (
+            <span className='flex items-center text-cyan-400 font-bold bg-cyan-400/10 px-2 py-1 rounded w-fit'>
+              <Snowflake size={14} className='mr-1' /> {player.losingStreak}
+            </span>
+          )}
+        </div>
+      </td>
+      
+      <td>
+        <span className='text-green-400'>{player.gamesWon}</span> - <span className='text-red-400'>{player.gamesLost}</span>
+      </td>
     </tr>
   );
 }
