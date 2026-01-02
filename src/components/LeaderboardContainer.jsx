@@ -10,6 +10,7 @@ export default function leaderboardContainer({guildID}) {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortConfig, setSortConfig] = useState({ key: 'mmr', direction: 'desc' });
 
   const season = 4;
   var placedStats, unplacedStats;
@@ -43,12 +44,33 @@ export default function leaderboardContainer({guildID}) {
         )
       }
 
+      if (sortConfig.key) {
+        data.sort((a, b) => {
+
+          // parseFloat to prevent comparing strings (win percentage)
+          const valA = parseFloat(a[sortConfig.key]);
+          const valB = parseFloat(b[sortConfig.key]);
+
+          if (valA < valB) return sortConfig.direction === 'asc' ? -1 : 1;
+          if (valA > valB) return sortConfig.direction === 'asc' ? 1 : -1;
+          return 0;
+        });
+      }
+
       return data;
     } else {
       return [];
     }
     
-  }, [stats, searchQuery]);
+  }, [stats, searchQuery, sortConfig]);
+
+  console.log(processedData);
+
+  const handleSort = (key) => {
+    let direction = 'desc';
+    if (sortConfig.key === key && sortConfig.direction === 'desc') direction = 'asc';
+    setSortConfig({ key, direction });
+  }
 
   if (!isLoading && !error) {
     placedStats = processedData.filter(player => player.placed);
@@ -78,8 +100,19 @@ export default function leaderboardContainer({guildID}) {
           </div>
 
           <div className='flex flex-col justify-center'>
-            <Leaderboard stats={placedStats} isPlaced={true}/>
-            <Leaderboard stats={unplacedStats} isPlaced={false}/>
+            <Leaderboard 
+              stats={placedStats} 
+              isPlaced={true} 
+              sortConfig={sortConfig} 
+              onSort={handleSort}
+            />
+
+            <Leaderboard 
+              stats={unplacedStats} 
+              isPlaced={false}
+              sortConfig = {sortConfig}
+              onSort={handleSort}
+            />
           </div>
         </div>
         
