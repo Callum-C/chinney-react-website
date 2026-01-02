@@ -1,13 +1,6 @@
 import { Trophy } from 'lucide-react';
 
-const NAV_LINKS = [
-  {label: 'Player Lookup', id: 'player_lookup'},
-  {label: 'Leaderboard', id: 'leaderboard'},
-  {label: 'Matches', id: 'matches'},
-  {label: 'Rules and Info', id: 'rules'}
-];
-
-export default function renderHeader() {
+export default function renderHeader({ pages, setActiveTab }) {
 
   return (
     <header className='w-full shadow-lg mb-4 border-b border-slate-700'>
@@ -26,9 +19,13 @@ export default function renderHeader() {
         <div className='max-w-7xl mx-auto px-4 py-3'>
           <nav>
             <ul className='bg-slate-800 flex justify-center gap-8 text-sm font-medium text-slate-100'>
-              {NAV_LINKS.map((link) => {
+              {pages.map((page) => {
                 return (
-                  <li className='header-nav-link' key={link.id}>{link.label}</li>
+                  <li className='header-nav-link' key={page.id}>
+                    <button onClick={() => setActiveTab(page.id)}>
+                      {page.label}
+                    </button>
+                  </li>
                 );
               })}
             </ul>
