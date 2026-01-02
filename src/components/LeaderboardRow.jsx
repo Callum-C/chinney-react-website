@@ -3,7 +3,7 @@ import { Flame, Snowflake } from 'lucide-react';
 export default function renderLeaderboardRow({ player, index, sortConfig, isPlaced }) {
 
   const rankDisplay = isPlaced ? (
-    sortConfig.key === 'mmr' && sortConfig.direction === 'desc' ? index : '-'
+    sortConfig.key === 'mmr' && sortConfig.direction === 'desc' ? index + 1 : '-'
   ) : (
     <span className="text-xs font-bold text-slate-600 bg-slate-800 px-1.5 py-0.5 rounded">UR</span>
   );

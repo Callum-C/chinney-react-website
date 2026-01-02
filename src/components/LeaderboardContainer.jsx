@@ -18,14 +18,14 @@ export default function leaderboardContainer({guildID}) {
   useEffect(() => {
     const loadData = async () => {
       setIsLoading(true);
-      try {
 
+      try {
         const data = await fetchGuildData(guildID);
         setStats(data);
 
       } catch (error) {
         setError("Failed to load leaderboard data.");
-        console.error(error);
+        console.error("Leaderboard Container Call API Error", error);
       } finally {
         setIsLoading(false);
       }
@@ -63,8 +63,6 @@ export default function leaderboardContainer({guildID}) {
     }
     
   }, [stats, searchQuery, sortConfig]);
-
-  console.log(processedData);
 
   const handleSort = (key) => {
     let direction = 'desc';

@@ -46,18 +46,17 @@ export default function renderLeaderboard({stats, isPlaced, sortConfig, onSort})
             </thead>
 
             <tbody>
-                {stats.map((player, index) => {
-                  index = (isPlaced === false) ? '-' : index + 1;
-                  return (
-                    <LeaderboardRow 
-                      key={player.username} 
-                      player={player} 
-                      index={index}
-                      sortConfig={sortConfig}
-                      isPlaced={isPlaced}
-                    />
-                  );
-                })}
+              {stats.map((player, index) => {
+                return (
+                  <LeaderboardRow 
+                    key={player.username} 
+                    player={player} 
+                    index={index}
+                    sortConfig={sortConfig}
+                    isPlaced={isPlaced}
+                  />
+                );
+              })}
             </tbody>
 
           </table>
