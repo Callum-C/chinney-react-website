@@ -1,11 +1,17 @@
 import { Flame, Snowflake } from 'lucide-react';
 
-export default function renderLeaderboardRow({ player, index }) {
+export default function renderLeaderboardRow({ player, index, sortConfig, isPlaced }) {
+
+  const rankDisplay = isPlaced ? (
+    sortConfig.key === 'mmr' && sortConfig.direction === 'desc' ? index : '-'
+  ) : (
+    <span className="text-xs font-bold text-slate-600 bg-slate-800 px-1.5 py-0.5 rounded">UR</span>
+  );
 
   return (
     <tr className='hover:bg-slate-800/50 transition-colors group border-b border-slate-800'>
-      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 font-mono">
-        {index}
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 font-mono w-16 text-center">
+        {rankDisplay}
       </td>
 
       <td className="px-6 py-4 whitespace-nowrap">

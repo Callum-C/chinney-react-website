@@ -20,11 +20,6 @@ export default function renderLeaderboard({stats, isPlaced, sortConfig, onSort})
 
   const title = isPlaced ? "Ranked" : "Unranked";
 
-  const SortIcon = ({ columnKey }) => {
-    if (sortConfig.key !== columnKey) return <div className='w-4 h-4 ml-1 opacity-0'></div>;
-    return sortConfig.direction === 'asc' ? <ChevronUp size={16} className='ml-1' /> : <ChevronDown size={16} className='ml-1' />;
-  };
-
   return (
     <div className=''>
       <h2 className='text-xl font-bold text-white my-4 pl-1'>{title}</h2>
@@ -54,7 +49,13 @@ export default function renderLeaderboard({stats, isPlaced, sortConfig, onSort})
                 {stats.map((player, index) => {
                   index = (isPlaced === false) ? '-' : index + 1;
                   return (
-                    <LeaderboardRow key={player.username} player={player} index={index}/>
+                    <LeaderboardRow 
+                      key={player.username} 
+                      player={player} 
+                      index={index}
+                      sortConfig={sortConfig}
+                      isPlaced={isPlaced}
+                    />
                   );
                 })}
             </tbody>
