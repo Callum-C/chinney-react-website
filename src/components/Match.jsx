@@ -4,6 +4,22 @@ import { formatDate, formatDuration, formatTime } from '../helpers/utilityFuncti
 export default function renderMatch({ match, players }) {
   const winner = match.status === "Team 1" ? "Team 1" : "Team 2";
 
+  const renderMMRChange = (pid) => {
+    const change = match.mmrChanges?.[pid]?.mmr + match.mmrChanges?.[pid]?.bonus;
+
+    if (change === undefined || change === null) return null;
+
+    const isPositive = change > 0;
+    const colorClass = isPositive ? 'text-green-400' : (change < 0 ? 'text-red-400' : 'text-slate-500');
+    const symbol = isPositive ? '+' : '';
+
+    return (
+      <span className={`text-xs font-mono font-bold ${colorClass} opacity-80`}>
+        {symbol}{change}
+      </span>
+    );
+  };
+
 
   return (
     <div className="bg-slate-900 rounded-lg border border-slate-800 p-4 hover:border-slate-700 transition-all shadow-lg mb-4">
@@ -19,15 +35,15 @@ export default function renderMatch({ match, players }) {
           </span>
 
           <span className='flex items-center mr-4'>
-            <Calendar size={12} className='mr-1.5 opacity-70'/> {formatDate(match.createdAt)}
+            <Calendar size={12} className='mr-1.5 opacity-70' title="Date"/> {formatDate(match.createdAt)}
           </span>
 
           <span className='flex items-center mr-4'>
-            <Clock size={12} className='mr-1.5 opacity-70'/> {formatTime(match.createdAt)}
+            <Clock size={12} className='mr-1.5 opacity-70' title="Start Time"/> {formatTime(match.createdAt)}
           </span>
 
           <span className='hidden sm:flex items-center mr-4'>
-            <Timer size={12} className='mr-1.5 opacity-70'/> {formatDuration(match.createdAt, match.updatedAt)}
+            <Timer size={12} className='mr-1.5 opacity-70' title="Duration"/> {formatDuration(match.createdAt, match.updatedAt)}
           </span>
 
         </div>
@@ -51,7 +67,11 @@ export default function renderMatch({ match, players }) {
             {match.team1.map(pid => (
               <div key={pid} className='text-sm text-slate-300 flex items-center'>
                 <div className='w-1 h-1 bg-blue-500 rounded-full mr-2'/>
-                {players[pid] ?? "Unknown"}
+
+                <span className='mr-2'>
+                  {players[pid] ?? "Unknown"}
+                </span>
+                {renderMMRChange(pid)}
               </div>
             ))}
           </div>
@@ -71,7 +91,11 @@ export default function renderMatch({ match, players }) {
           <div>
             {match.team2.map(pid => (
               <div key={pid} className='text-sm text-slate-300 flex items-center justify-end'>
-                {players[pid] ?? "Unknown"}
+                
+                <span className='mr-2'> {/*Change to ml-2 if mmr change is before the name*/}
+                  {players[pid] ?? "Unknown"}
+                </span>
+                {renderMMRChange(pid) /*Decide on placing this before or after the player's name on orange team*/} 
                 <div className='w-1 h-1 bg-orange-500 rounded-full ml-2'/>
               </div>
             ))}

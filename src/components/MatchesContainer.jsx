@@ -25,7 +25,7 @@ export default function matchesContainer({ guildID }) {
         setPlayers(await playerResponse);
 
       } catch (error) {
-        setError("Failed to load matchg data.");
+        setError("Failed to load match data.");
         console.error("Matches Container Call API Error", error);
       } finally {
         setIsLoading(false);
