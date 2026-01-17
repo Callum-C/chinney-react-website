@@ -45,7 +45,7 @@ export default function renderLeaderboardRow({ player, index, sortConfig, isPlac
         </div>
       </td>
       
-      {/*The following <td> is causing the diagonal hyphens. */}
+      {/*The following <td> is causing the diagonally-descending hyphens. */}
       <td className='px-6 py-4 whitespace-nowrap text-sm'>
         <div className='flex items-center'>
           {player.winStreak > 0 && (
@@ -53,19 +53,24 @@ export default function renderLeaderboardRow({ player, index, sortConfig, isPlac
               <Flame size={14} className='mr-1'/> {player.winStreak}
             </span>
           )}
+
           {player.losingStreak > 0 && (
             <span className='flex items-center text-cyan-400 font-bold bg-cyan-400/10 px-2 py-1 rounded w-fit'>
               <Snowflake size={14} className='mr-1' /> {player.losingStreak}
             </span>
           )}
+
           {player.winStreak <= 0 && player.losingStreak <= 0 && (
             <span className=''> - </span>
           )}
+
         </div>
       </td>
       
       <td>
-        <span className='text-green-400/50'>{player.gamesWon}</span> - <span className='text-red-400/50'>{player.gamesLost}</span>
+        <div className='flex items-center'>
+          <span className='text-green-400/50 mr-1'>{player.gamesWon}</span> - <span className='text-red-400/50 ml-1'>{player.gamesLost}</span>
+        </div>
       </td>
     </tr>
   );
