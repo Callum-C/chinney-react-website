@@ -7,6 +7,11 @@ export default function renderMatch({ match, players }) {
 
   const winner = match.status === "Team 1" ? "Team 1" : "Team 2";
 
+  const winnerBadgeClass = winner == 'Team 1' 
+    ? "bg-blue-900/20 text-blue-400 border-blue-800/30" 
+    : "bg-orange-900/20 text-orange-400 border-orange-800/30"
+  ;
+
   const renderMMRChange = (pid) => {
     const change = match.mmrChanges?.[pid]?.mmr + match.mmrChanges?.[pid]?.bonus;
 
@@ -55,7 +60,7 @@ export default function renderMatch({ match, players }) {
         </div>
 
         {/* Match Winner in Green Text and Backing */}
-        <div className='px-3 py-1 rounded text-xs font-bold uppercase tracking-wider bg-green-900/20 text-green-400'>
+        <div className={`px-3 py-1 rounded text-xs font-bold uppercase tracking-wider ${winnerBadgeClass}`}>
           {winner}
         </div>
       </div>
