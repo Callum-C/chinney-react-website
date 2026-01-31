@@ -8,6 +8,8 @@ export default function renderLeaderboardRow({ player, index, sortConfig, isPlac
     <span className="text-xs font-bold text-slate-600 bg-slate-800 px-1.5 py-0.5 rounded">UR</span>
   );
 
+  const flameAnimation = player.winStreak > 2 ? 'animate-pulse' : 'animate-none';
+
   return (
     <tr className='hover:bg-slate-800/50 transition-colors group border-b border-slate-800'>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 font-mono w-16 text-center">
@@ -46,29 +48,29 @@ export default function renderLeaderboardRow({ player, index, sortConfig, isPlac
       </td>
       
       {/*The following <td> is causing the diagonally-descending hyphens. */}
-      <td className='px-6 py-4 whitespace-nowrap text-sm'>
-        <div className='flex items-center'>
-          {player.winStreak > 0 && (
+      <td className='px-6 py-4 whitespace-nowrap text-sm isolate'>
+        <div className='flex items-center min-h-[28px]'>
+          {player.winStreak > 0 && player.losingStreak <= 0 && (
             <span className='flex items-center text-orange-400 font-bold bg-orange-400/10 px-2 py-1 rounded w-fit'>
-              <Flame size={14} className='mr-1'/> {player.winStreak}
+              <Flame size={14} className={`mr-1 fill-orange-400/20 ${flameAnimation} transform-gpu flex-shrink-0`}/>  {player.winStreak}
             </span>
           )}
 
-          {player.losingStreak > 0 && (
+          {player.losingStreak > 0 && player.winStreak <= 0 && (
             <span className='flex items-center text-cyan-400 font-bold bg-cyan-400/10 px-2 py-1 rounded w-fit'>
-              <Snowflake size={14} className='mr-1' /> {player.losingStreak}
+              <Snowflake size={14} className='mr-1 flex-shrink-0' /> {player.losingStreak}
             </span>
           )}
 
           {player.winStreak <= 0 && player.losingStreak <= 0 && (
-            <span className=''> - </span>
+            <span className='flex items-center px-2 py-1 rounded w-fit'> - </span>
           )}
 
         </div>
       </td>
       
       <td>
-        <div className='flex items-center'>
+        <div className='px-6 py-4 flex items-center'>
           <span className='text-green-400/50 mr-1'>{player.gamesWon}</span> - <span className='text-red-400/50 ml-1'>{player.gamesLost}</span>
         </div>
       </td>
