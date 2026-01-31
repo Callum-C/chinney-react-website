@@ -65,6 +65,18 @@ export default function renderMatch({ match, players }) {
         <div className='flex flex-col mb-4'>
           <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm'>
 
+            {/* Duration - Mobile only */}
+            {match.updatedAt &&  (
+              <div className='flex flex-col sm:hidden'>
+                <span className='text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 flex items-center gap-1'>
+                  <Timer size={10} /> Duration
+                </span>
+                <span className='text-slate-200 font-medium"'>
+                  {formatDuration(match.createdAt, match.updatedAt)}
+                </span>
+              </div>
+            )}
+
             {/* Selection Method */}
             <div className='flex flex-col'>
               <span className='text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 flex items-center gap-1'>
@@ -101,7 +113,7 @@ export default function renderMatch({ match, players }) {
         {/* Team 1 / Blue Team - Team Card */}
         <div className={`flex-1 p-4 ${winner === 'Team 1' ? 'bg-blue-500/10' : 'bg-slate-900'}`}>
           <div className='flex justify-between items-center mb-3'>
-            <div className='text-blue-400 font-bold uppercase tracking-widest text-xs sm:text-sm whitespace-nowrap'>Blue Team</div>
+            <div className='text-blue-400 font-bold uppercase tracking-widest text-sm whitespace-nowrap'>Team 1</div>
             <span className={`text-2xl font-black ${winner === 'Team 1' ? 'text-white' : 'text-slate-600'}`}>{match.team1Score}</span>
           </div>
           <div>
@@ -125,8 +137,8 @@ export default function renderMatch({ match, players }) {
         <div className={`flex-1 p-4 ${winner === 'Team 2' ? 'bg-orange-500/10' : 'bg-slate-900'}`}>
           <div className='flex justify-between items-center mb-3'>
             <span className={`text-2xl font-black ${winner === 'Team 2' ? 'text-white' : 'text-slate-600'}`}>{match.team2Score}</span>
-            <div className="text-orange-400 font-bold uppercase tracking-widest text-xs sm:text-sm whitespace-nowrap text-right">
-              Orange Team
+            <div className="text-orange-400 font-bold uppercase tracking-widest text-sm whitespace-nowrap text-right">
+              Team 2
             </div>
           </div>
           <div>
