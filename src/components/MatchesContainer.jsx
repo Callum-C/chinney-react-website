@@ -5,7 +5,7 @@ import Match from './Match';
 
 import { fetchGuildMatches, fetchPlayers } from '../services/api';
 
-export default function matchesContainer({ guildID }) {
+export default function MatchesContainer({ guildID }) {
 
   const [matches, setMatches] = useState([]);
   const [players, setPlayers] = useState({});

@@ -1,10 +1,14 @@
-import {useState, useEffect, useMemo} from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Loader2 } from 'lucide-react';
 import { fetchGuildData } from '../services/api';
 import Leaderboard from './Leaderboard';
 import SearchBar from './SearchBar';
 
-export default function leaderboardContainer({guildID}) {
+const CURRENT_SEASON = {
+  id: 4, name: 'Season 4', date: 'Feb 2024 - Present', hasMMR: true, hasGames: true,
+}
+
+export default function LeaderboardContainer({guildID, season}) {
 
   const [stats, setStats] = useState({});
   const [error, setError] = useState(null);
@@ -12,7 +16,6 @@ export default function leaderboardContainer({guildID}) {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: 'mmr', direction: 'desc' });
 
-  const season = 4;
   var placedStats, unplacedStats;
 
   useEffect(() => {
@@ -36,7 +39,10 @@ export default function leaderboardContainer({guildID}) {
 
   const processedData = useMemo(() => {
     if (!isLoading){
-      let data = [...stats[season]];
+      let data = stats[season].map(p => ({
+        ...p,
+        username: p.username || 'Unknown'
+      }));
 
       if (searchQuery) {
         data = data.filter(
@@ -86,8 +92,8 @@ export default function leaderboardContainer({guildID}) {
 
       {error && (
         <div className="bg-red-900/20 border border-red-800 text-red-300 p-6 rounded-lg text-center my-8">
-          <p className="font-bold text-lg mb-2">Oops! Error Loading Data</p>
-          <p>{error}</p>
+          <p className="font-bold text-lg mb-2">Error Loading Data</p>
+          <p>{error}\nTry refreshing. If the problem persists, blame Chinney.</p>
         </div>
       )}
 
@@ -103,6 +109,7 @@ export default function leaderboardContainer({guildID}) {
               isPlaced={true} 
               sortConfig={sortConfig} 
               onSort={handleSort}
+              season={CURRENT_SEASON}
             />
 
             <Leaderboard 
@@ -110,6 +117,7 @@ export default function leaderboardContainer({guildID}) {
               isPlaced={false}
               sortConfig = {sortConfig}
               onSort={handleSort}
+              season={CURRENT_SEASON}
             />
           </div>
         </div>

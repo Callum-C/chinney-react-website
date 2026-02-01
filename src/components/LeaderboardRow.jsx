@@ -1,6 +1,6 @@
 import { Flame, Snowflake } from 'lucide-react';
 
-export default function renderLeaderboardRow({ player, index, sortConfig, isPlaced }) {
+export default function renderLeaderboardRow({ player, index, sortConfig, isPlaced, season }) {
 
   const rankDisplay = isPlaced ? (
     sortConfig.key === 'mmr' && sortConfig.direction === 'desc' ? index + 1 : '-'
@@ -9,6 +9,10 @@ export default function renderLeaderboardRow({ player, index, sortConfig, isPlac
   );
 
   const flameAnimation = player.winStreak > 2 ? 'animate-pulse' : 'animate-none';
+  const hasMMR = season?.hasMMR;
+  const hasGames = season?.hasGames;
+
+  const matchDiffCol = player.matchDiff > 0 ? "text-green-400/80" : player.matchDiff < 0 ? "text-red-400/80" : "text-slate-400/80";
 
   return (
     <tr className='hover:bg-slate-800/50 transition-colors group border-b border-slate-800'>
@@ -27,15 +31,22 @@ export default function renderLeaderboardRow({ player, index, sortConfig, isPlac
         </div>
       </td>
 
-      <td className="px-6 py-4 whitespace-nowrap">
-        <div className="flex flex-col">
-          {player.mmr}
-          {/*TODO Add Rank Tier (Bronze - Siler - Gold etc*/}
-        </div>
-      </td>
+      {hasMMR && (
+        <td className="px-6 py-4 whitespace-nowrap">
+          <div className="flex flex-col">
+            {player.mmr}
+            {/*TODO Add Rank Tier (Bronze - Siler - Gold etc*/}
+          </div>
+        </td>
+      )}
+      
 
       <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
         <span className='text-green-400 font-bold'>{player.matchesWon}</span> - <span className='text-red-400 font-bold'>{player.matchesLost}</span>
+      </td>
+
+      <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
+        <span className={`${matchDiffCol}`}>{player.matchDiff}</span>
       </td>
 
       <td className="px-6 py-4 whitespace-nowrap">
@@ -69,11 +80,14 @@ export default function renderLeaderboardRow({ player, index, sortConfig, isPlac
         </div>
       </td>
       
-      <td>
-        <div className='px-6 py-4 flex items-center'>
-          <span className='text-green-400/50 mr-1'>{player.gamesWon}</span> - <span className='text-red-400/50 ml-1'>{player.gamesLost}</span>
-        </div>
-      </td>
+      {hasGames && (
+        <td>
+          <div className='px-6 py-4 flex items-center'>
+            <span className='text-green-400/50 mr-1'>{player.gamesWon}</span> - <span className='text-red-400/50 ml-1'>{player.gamesLost}</span>
+          </div>
+        </td>
+      )}
+      
     </tr>
   );
 }
