@@ -13,6 +13,8 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('leaderboard');
 
   const PAGES = [
+    {label: 'Content', id: 'content'},
+    {label: 'Server Stats', id: 'server_stats'},
     {label: 'Player Lookup', id: 'player_lookup'},
     {label: 'Leaderboard', id: 'leaderboard'},
     {label: 'Matches', id: 'matches'},
@@ -37,7 +39,7 @@ export default function App() {
           <ArchiveContainer guildID={guildID} season={0} />
         )}
 
-        {activeTab === 'player_lookup' && (
+        {(activeTab === 'player_lookup' || activeTab === 'server_stats' || activeTab === 'content') && (
           <div className="bg-red-900/20 border border-red-800 text-red-300 p-6 rounded-lg text-center my-8">
             <p className="font-bold text-lg mb-2">Oops! Page Doesn't Exist... Yet</p>
           </div>
