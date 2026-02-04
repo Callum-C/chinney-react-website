@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Loader2 } from 'lucide-react';
 
 import Match from './Match';
+import SearchBar from './SearchBar';
 
 import { fetchGuildMatches, fetchPlayers } from '../services/api';
 
@@ -10,6 +11,7 @@ export default function MatchesContainer({ guildID }) {
   const [matches, setMatches] = useState([]);
   const [players, setPlayers] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState(false);
 
 
@@ -35,6 +37,38 @@ export default function MatchesContainer({ guildID }) {
     loadData();
   }, []);
 
+  // Add Player Usernames to match data
+  const encrichedMatches = useMemo(() => {
+    if (!isLoading) {
+      return matches.map(match => ({
+        ...match,
+        playerUsernames: match.players.map(player => players[player] || 'Unknown')
+      }));
+
+    } else {
+      return [];
+    }
+  }, [matches])
+
+  // Filter matches shown in container by user's search query
+  const filteredMatches = useMemo(() => {
+    if (!isLoading) {
+
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        return encrichedMatches.filter(match => 
+          match.playerUsernames.some(name => name.toLowerCase().includes(query)) ||
+          match.matchID.toString().includes(query)
+        );
+      } else {
+        return encrichedMatches;
+      }
+
+    } else {
+      return [];
+    }
+  }, [encrichedMatches, searchQuery]);
+
   return (
     <>
       {isLoading && (
@@ -52,11 +86,17 @@ export default function MatchesContainer({ guildID }) {
       )}
 
       {!isLoading && !error && (
-        <div className='flex flex-col justify-center'>
-          {matches.map((match) => {
-            return(<Match key={match.matchID} match={match} players={players}/>);
-          })}
+        <div className=''>
+          <div className=''>
+            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} defaultText='Search Player Username or Match ID' />
+          </div>
 
+          <div className='flex flex-col justify-center'>
+            {filteredMatches.map((match) => {
+              return(<Match key={match.matchID} match={match} players={players}/>);
+            })}
+
+          </div>
         </div>
       )}
     
