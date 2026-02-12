@@ -12,11 +12,8 @@ export default function App() {
 
   const [activeTab, setActiveTab] = useState('leaderboard');
 
-  const PAGES = [
-    {label: 'Content', id: 'content'},
-    {label: 'Server Stats', id: 'server_stats'},
-    {label: 'Player Lookup', id: 'player_lookup'},
-    {label: 'Leaderboard', id: 'leaderboard'},
+  const PAGES = [ // {label: 'Content', id: 'content'}, {label: 'Server Stats', id: 'server_stats'}, 
+    {label: 'Leaderboard', id: 'leaderboard'}, // {label: 'Player Lookup', id: 'player_lookup'},
     {label: 'Matches', id: 'matches'},
     {label: 'Archives', id: 'archive'}
   ];
