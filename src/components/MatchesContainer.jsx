@@ -38,36 +38,39 @@ export default function MatchesContainer({ guildID }) {
   }, []);
 
   // Add Player Usernames to match data
-  const encrichedMatches = useMemo(() => {
+  const enrichedMatches = useMemo(() => {
     if (!isLoading) {
       return matches.map(match => ({
         ...match,
-        playerUsernames: match.players.map(player => players[player] || 'Unknown')
+        searchableNames: match.players.map((player => players[player].toLowerCase() || 'unknown'))
       }));
 
     } else {
       return [];
     }
-  }, [matches])
+  }, [matches, players])
 
   // Filter matches shown in container by user's search query
   const filteredMatches = useMemo(() => {
     if (!isLoading) {
+      if (!searchQuery.trim()) return enrichedMatches;
 
-      if (searchQuery) {
-        const query = searchQuery.toLowerCase();
-        return encrichedMatches.filter(match => 
-          match.playerUsernames.some(name => name.toLowerCase().includes(query)) ||
-          match.matchID.toString().includes(query)
+      const searchTerms = searchQuery
+        .split(/[\s,]+/)
+        .map(term => term.trim().toLowerCase())
+        .filter(term => term.length > 0);
+
+      if (searchTerms.length === 0) return enrichedMatches;
+
+      return enrichedMatches.filter(match => {
+        return searchTerms.every(term => 
+          match.searchableNames.some(player => player.includes(term))
         );
-      } else {
-        return encrichedMatches;
-      }
-
+      });
     } else {
       return [];
     }
-  }, [encrichedMatches, searchQuery]);
+  }, [enrichedMatches, searchQuery]);
 
   return (
     <>
@@ -87,8 +90,14 @@ export default function MatchesContainer({ guildID }) {
 
       {!isLoading && !error && (
         <div className=''>
-          <div className=''>
-            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} defaultText='Search Player Username or Match ID' />
+          <div className='flex flex-col sm:flex-row items-center justify-between'>
+            <span className=''>
+              <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} defaultText='Search Player Username(s) or Match ID' />
+            </span>
+
+            <span className='flex items-center gap-2 bg-slate-900 border border-slate-700 text-slate-300 px-3 py-1 rounded-full animate-in fade-in zoom-in duration-300 mb-4'>
+              {filteredMatches.length} {filteredMatches.length === 1 ? 'Match' : 'Matches'} Found
+            </span>
           </div>
 
           <div className='flex flex-col justify-center'>
